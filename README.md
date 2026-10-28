@@ -1,69 +1,140 @@
-# CodeIgniter 4 Application Starter
+# Sistem Informasi Data Siswa XI RPL (ci_siswa)
 
-## What is CodeIgniter?
+Aplikasi web sederhana berbasis **CodeIgniter 4** dan **Bootstrap 5** untuk mengelola data siswa kelas XI RPL. Aplikasi ini dilengkapi dengan antarmuka yang bersih, modern, dan responsif serta fitur pencarian, pengurutan cerdas (*tri-state*), dan paginasi data.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+---
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## Fitur Utama
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+- **CRUD Data Siswa Lengkap:**
+  - Menampilkan daftar data siswa (NIS, Nama Lengkap, Kelas).
+  - Menambah siswa baru melalui modal dialog interaktif.
+  - Mengubah data siswa yang sudah ada.
+  - Menghapus data siswa dengan konfirmasi keamanan.
+- **Input Kelas Dinamis & Fleksibel:**
+  - Menggunakan elemen `<datalist>` yang mengambil daftar opsi kelas unik secara otomatis dari database.
+  - Memperbolehkan pengguna memilih kelas yang sudah ada atau mengetik kelas baru secara manual.
+- **Pencarian Real-Time (Multi-Kolom):**
+  - Mencari data siswa secara instan berdasarkan NIS, Nama Lengkap, maupun Kelas.
+  - Dilengkapi tombol reset filter pencarian yang praktis.
+- **Pengurutan Fleksibel (*Tri-State Sorting*):**
+  - **Klik Header Tabel (NIS, Nama, Kelas):**
+    - Klik 1: Mengurutkan dari A $\rightarrow$ Z / terkecil (tanda panah `▲`).
+    - Klik 2: Mengurutkan dari Z $\rightarrow$ A / terbesar (tanda panah `▼`).
+    - Klik 3: Mematikan sortir (kembali ke default, tanda panah hilang).
+    - Klik 4: Mengulang kembali siklus pengurutan.
+  - **Dropdown Toolbar:** Pilihan urutan langsung (Default, NIS, Nama, Kelas).
+- **Paginasi Data:**
+  - Menampilkan 10 data per halaman secara proporsional.
+  - Tombol navigasi halaman yang responsif dan terpusat rapi di mobile maupun desktop.
+- **Desain UI Modern & Responsif:**
+  - Tampilan rapi dengan tipografi jelas, palet warna elegan, dan badge kelas tematik.
+  - Teruji optimal pada tampilan layar desktop maupun smartphone.
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+---
 
-## Installation & updates
+## Kebutuhan Sistem (Prasyarat)
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+Aplikasi ini dapat dijalankan dengan mudah menggunakan aplikasi **XAMPP**:
+- **Web Server:** Apache
+- **Database Server:** MySQL / MariaDB
+- **PHP:** Versi 8.1 atau 8.2+
+- **Ekstensi PHP Aktif:** `intl`, `mbstring`, `mysqli`, `json` (umumnya sudah aktif secara default di XAMPP).
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+---
 
-## Setup
+## File Database (SQL)
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+Di dalam repositori ini terdapat 2 file SQL:
 
-## Important Change with index.php
+1. **`db_rpl_siswa.sql` (File Utama - Direkomendasikan)**
+   - Berisi perintah pembuatan database `db_rpl_siswa`, struktur tabel `siswa`, dan **26 data siswa awal** siap pakai.
+   - Sangat disarankan digunakan untuk pengujian, penilaian, atau demonstrasi aplikasi.
+2. **`db_rpl_siswa_schema.sql` (Skema Kosong - Opsional)**
+   - Berisi hanya struktur database dan tabel `siswa` tanpa data awal (kosong).
+   - Digunakan jika ingin memulai pengisian data dari nol.
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+---
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+## Cara Instalasi dan Menjalankan Aplikasi
 
-**Please** read the user guide for a better explanation of how CI4 works!
+Ikuti langkah-langkah mudah berikut untuk menjalankan project di komputer lokal:
 
-## Repository Management
+### 1. Letakkan Folder Project
+Pastikan folder project ini berada di direktori `htdocs` XAMPP Anda:
+```text
+C:\xampp\htdocs\ci_siswa
+```
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+### 2. Nyalakan XAMPP
+Buka **XAMPP Control Panel**, lalu klik **Start** pada modul **Apache** dan **MySQL**.
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+### 3. Impor File Database
+Terdapat dua cara untuk mengimpor database:
 
-## Server Requirements
+**Cara A: Melalui phpMyAdmin (Paling Mudah)**
+1. Buka browser dan akses `http://localhost/phpmyadmin/`.
+2. Klik tab **Import** pada menu atas.
+3. Klik tombol **Choose File** / **Pilih File**, lalu pilih file `db_rpl_siswa.sql` dari folder project ini.
+4. Gulir ke bawah dan klik tombol **Import** (atau **Kirim**).
+5. Database `db_rpl_siswa` dan tabel `siswa` beserta 26 data siswa akan terbuat secara otomatis.
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+**Cara B: Melalui Terminal / Command Prompt**
+```bash
+mysql -u root < C:\xampp\htdocs\ci_siswa\db_rpl_siswa.sql
+```
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+### 4. Konfigurasi Environment (`.env`)
+1. Di dalam folder root project (`ci_siswa`), pastikan sudah terdapat file `.env`.
+2. Jika belum ada, salin file `.env.example` menjadi `.env`:
+   ```bash
+   copy .env.example .env
+   ```
+3. Buka file `.env` dan pastikan konfigurasi dasar sudah sesuai:
+   ```ini
+   CI_ENVIRONMENT = development
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
+   app.baseURL = 'http://localhost/ci_siswa/public/'
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+   database.default.hostname = localhost
+   database.default.database = db_rpl_siswa
+   database.default.username = root
+   database.default.password = ''
+   database.default.DBDriver = MySQLi
+   database.default.port = 3306
+   ```
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+### 5. Akses Aplikasi di Browser
+Buka browser favorit Anda, lalu kunjungi alamat URL berikut:
+```text
+http://localhost/ci_siswa/public/
+```
+
+---
+
+## Bukti Pengerjaan (Evidence / Checkpoint)
+
+Tangkapan layar hasil pengerjaan dan perkembangan fitur tersimpan rapi pada direktori:
+- **`evidence/`**: Bukti pemenuhan checkpoint penugasan dari awal hingga implementasi tabel.
+- **`bukti_checkpoint/`**: Dokumentasi visual fitur akhir (tampilan desktop, mobile, sorting, search, datalist kelas, dan paginasi).
+
+---
+
+## Struktur Folder Singkat
+
+```text
+ci_siswa/
+├── app/
+│   ├── Config/          # Konfigurasi aplikasi (Routes, Pager, Database, dll.)
+│   ├── Controllers/     # Home.php (Logika CRUD, search, filter, sorting)
+│   ├── Models/          # SiswaModel.php (Interaksi tabel database)
+│   └── Views/           # siswa_view.php (Tampilan antarmuka utama)
+├── bukti_checkpoint/    # Dokumentasi visual fitur akhir
+├── evidence/            # Tangkapan layar checkpoint penugasan
+├── public/              # File index.php dan aset publik yang dapat diakses browser
+├── db_rpl_siswa.sql     # File dump database utama (struktur + 26 data siswa)
+├── db_rpl_siswa_schema.sql # File skema database kosong
+├── .env.example         # Template konfigurasi environment
+├── README.md            # Dokumentasi petunjuk penggunaan aplikasi
+└── spark                # CLI tool bawaan CodeIgniter 4
+```
