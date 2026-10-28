@@ -11,7 +11,7 @@ $pager->setSurroundCount(2);
 ?>
 
 <nav aria-label="Navigasi Halaman Siswa">
-    <ul class="pagination justify-content-center mb-0">
+    <ul class="pagination justify-content-center mb-0 gap-1">
         <?php if ($pager->hasPreviousPage()) : ?>
             <li class="page-item">
                 <a class="page-link" href="<?= $pager->getPreviousPage() ?>" aria-label="Sebelumnya">
