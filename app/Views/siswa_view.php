@@ -1,29 +1,60 @@
 <?php
 // Helper URL & icon sorting
 $getSortUrl = function(string $col) use ($sort, $order, $keyword): string {
-    $nextOrder = ($sort === $col && $order === 'asc') ? 'desc' : 'asc';
-    $params = ['sort' => $col, 'order' => $nextOrder];
+    $params = [];
     if (!empty($keyword)) {
         $params['keyword'] = $keyword;
     }
-    return base_url('?' . http_build_query($params));
+
+    if ($sort === $col && $order === 'asc') {
+        // Klik 2: A -> Z (DESC)
+        $params['sort'] = $col;
+        $params['order'] = 'desc';
+    } elseif ($sort === $col && $order === 'desc') {
+        // Klik 3: Matikan sortir / kembali ke default ID (ga ada panah, fitur mati)
+    } else {
+        // Klik 1 (atau setelah mati): A -> Z (ASC)
+        $params['sort'] = $col;
+        $params['order'] = 'asc';
+    }
+
+    $query = !empty($params) ? ('?' . http_build_query($params)) : '';
+    return base_url($query);
 };
 
 $getSortOptionUrl = function(string $col, string $dir) use ($keyword): string {
-    $params = ['sort' => $col, 'order' => $dir];
+    $params = [];
     if (!empty($keyword)) {
         $params['keyword'] = $keyword;
     }
-    return base_url('?' . http_build_query($params));
+    if ($col !== 'id') {
+        $params['sort'] = $col;
+        $params['order'] = $dir;
+    }
+    $query = !empty($params) ? ('?' . http_build_query($params)) : '';
+    return base_url($query);
 };
 
 $getSortIcon = function(string $col) use ($sort, $order): string {
-    if ($sort !== $col) {
-        return '<span class="text-secondary opacity-50 small ms-1" style="font-size: 0.75rem;">↕</span>';
+    if ($sort === $col) {
+        if ($order === 'asc') {
+            return '<span class="text-warning small ms-1" style="font-size: 0.75rem;">▲</span>';
+        } elseif ($order === 'desc') {
+            return '<span class="text-warning small ms-1" style="font-size: 0.75rem;">▼</span>';
+        }
     }
-    return $order === 'asc' 
-        ? '<span class="text-warning small ms-1" style="font-size: 0.75rem;">▲</span>' 
-        : '<span class="text-warning small ms-1" style="font-size: 0.75rem;">▼</span>';
+    return '';
+};
+
+$getSortTitle = function(string $col, string $label) use ($sort, $order): string {
+    if ($sort === $col) {
+        if ($order === 'asc') {
+            return "Urutkan {$label} (Z-A)";
+        } elseif ($order === 'desc') {
+            return "Matikan urutan {$label} (Kembali ke Default)";
+        }
+    }
+    return "Urutkan {$label} (A-Z)";
 };
 
 $sortLabels = [
@@ -361,19 +392,19 @@ $getBadgeClass = function(string $kelas): string {
                                 <tr>
                                     <th scope="col" width="6%" class="text-center">No</th>
                                     <th scope="col" width="16%">
-                                        <a href="<?= $getSortUrl('nis'); ?>" class="text-white text-decoration-none d-inline-flex align-items-center gap-1.5" title="Klik untuk mengurutkan NIS">
+                                        <a href="<?= $getSortUrl('nis'); ?>" class="text-white text-decoration-none d-inline-flex align-items-center gap-1.5" title="<?= $getSortTitle('nis', 'NIS'); ?>">
                                             <span>NIS</span>
                                             <?= $getSortIcon('nis'); ?>
                                         </a>
                                     </th>
                                     <th scope="col">
-                                        <a href="<?= $getSortUrl('nama'); ?>" class="text-white text-decoration-none d-inline-flex align-items-center gap-1.5" title="Klik untuk mengurutkan Nama">
+                                        <a href="<?= $getSortUrl('nama'); ?>" class="text-white text-decoration-none d-inline-flex align-items-center gap-1.5" title="<?= $getSortTitle('nama', 'Nama Lengkap'); ?>">
                                             <span>Nama Lengkap</span>
                                             <?= $getSortIcon('nama'); ?>
                                         </a>
                                     </th>
                                     <th scope="col" width="18%">
-                                        <a href="<?= $getSortUrl('kelas'); ?>" class="text-white text-decoration-none d-inline-flex align-items-center gap-1.5" title="Klik untuk mengurutkan Kelas">
+                                        <a href="<?= $getSortUrl('kelas'); ?>" class="text-white text-decoration-none d-inline-flex align-items-center gap-1.5" title="<?= $getSortTitle('kelas', 'Kelas'); ?>">
                                             <span>Kelas</span>
                                             <?= $getSortIcon('kelas'); ?>
                                         </a>
