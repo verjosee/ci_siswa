@@ -48,6 +48,7 @@ class Home extends BaseController
             'keyword'     => $keyword,
             'sort'        => $sort,
             'order'       => $order,
+            'daftarKelas' => $siswaModel->getDaftarKelas(),
         ];
 
         return view('siswa_view', $data);

@@ -20,4 +20,21 @@ class SiswaModel extends Model
     {
         return $this->findAll();
     }
+
+    // Mengambil daftar kelas unik secara dinamis dari database
+    public function getDaftarKelas(): array
+    {
+        $rows = $this->builder()
+            ->select('kelas')
+            ->distinct()
+            ->where('kelas IS NOT NULL')
+            ->where("kelas != ''")
+            ->orderBy('kelas', 'ASC')
+            ->get()
+            ->getResultArray();
+
+        $list = array_column($rows, 'kelas');
+
+        return !empty($list) ? $list : ['XI RPL 1', 'XI RPL 2', 'XI RPL 3'];
+    }
 }

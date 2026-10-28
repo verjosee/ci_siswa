@@ -297,8 +297,8 @@ $currentSortLabel = $sortLabels[$currentSortKey] ?? 'Urutkan';
                                                         </div>
                                                         <div class="mb-3">
                                                             <label class="form-label fw-medium">Kelas</label>
-                                                            <input type="text" name="kelas" class="form-control"
-                                                                   value="<?= esc($row['kelas']); ?>" required>
+                                                            <input type="text" name="kelas" class="form-control" list="listKelas"
+                                                                   value="<?= esc($row['kelas']); ?>" placeholder="Pilih atau ketik kelas..." required autocomplete="off">
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer bg-light">
@@ -356,7 +356,8 @@ $currentSortLabel = $sortLabels[$currentSortKey] ?? 'Urutkan';
                         </div>
                         <div class="mb-3">
                             <label for="kelas" class="form-label fw-medium">Kelas</label>
-                            <input type="text" name="kelas" id="kelas" class="form-control" placeholder="Contoh: XI RPL 1" required>
+                            <input type="text" name="kelas" id="kelas" class="form-control" list="listKelas"
+                                   placeholder="Pilih atau ketik kelas..." required autocomplete="off">
                         </div>
                     </div>
                     <div class="modal-footer bg-light">
@@ -367,6 +368,13 @@ $currentSortLabel = $sortLabels[$currentSortKey] ?? 'Urutkan';
             </div>
         </div>
     </div>
+
+    <!-- Datalist Pilihan Kelas Dinamis -->
+    <datalist id="listKelas">
+        <?php foreach ($daftarKelas as $k) : ?>
+            <option value="<?= esc($k); ?>">
+        <?php endforeach; ?>
+    </datalist>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
